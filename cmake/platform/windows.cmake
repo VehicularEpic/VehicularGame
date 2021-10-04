@@ -1,6 +1,8 @@
 if (OS_WINDOWS)
     ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
 
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+
     set(WINDOWS_RESOURCES platform/windows/Resource.rc platform/windows/Resource.h)
     source_group(${CMAKE_PROJECT_NAME} FILES ${WINDOWS_RESOURCES})
 
