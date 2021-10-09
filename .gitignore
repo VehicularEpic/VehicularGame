@@ -1,5 +1,10 @@
+.vs
+
+/out
 /build
 /external
 
 /cmake-build-debug
 /cmake-build-release
+
+CMakeSettings.json
