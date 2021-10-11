@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 if (MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-endif()
+endif ()
 
 # Use folders in the resulting project files.
 set_property(GLOBAL PROPERTY OS_FOLDERS ON)
@@ -31,6 +31,9 @@ file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp src/*.hpp)
 source_group(${CMAKE_PROJECT_NAME} FILES ${PROJECT_SOURCES})
 
 set(LINKED_LIBS glad glfw libcef_lib libcef_dll_wrapper)
+
+add_compile_definitions("$<$<CONFIG:Debug>:DEBUG_ENVIRONMENT>")
+add_compile_definitions("$<$<CONFIG:Release>:RELEASE_ENVIRONMENT>")
 
 include(platform/linux)
 include(platform/windows)
