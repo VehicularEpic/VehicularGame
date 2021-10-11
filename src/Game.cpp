@@ -21,6 +21,10 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
     windowInfo.SetAsWindowless(glfwGetWin32Window(window));
 #endif
 
+#if defined(OS_LINUX)
+    windowInfo.SetAsWindowless(glfwGetX11Window(window));
+#endif
+
     browserSettings.windowless_frame_rate = 60;
 
     const char *testUrl = "https://www.youtube.com/embed/iik25wqIuFo?autoplay=1&controls=0";
@@ -85,5 +89,18 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
 
     return CefExecuteProcess(args, nullptr, scopedSandbox.sandbox_info());
+}
+#else
+int main(int argc, char *argv[]) {
+    CefMainArgs args(argc, argv);
+
+    CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
+    commandLine->InitFromArgv(argc, argv);
+
+    if (PROCESS_TYPE_BROWSER == GetProcessType(commandLine)) {
+        return Game::Run(args, nullptr);
+    }
+
+    return CefExecuteProcess(args, nullptr, nullptr);
 }
 #endif
