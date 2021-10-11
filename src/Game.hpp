@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Window.hpp"
+#include "GameWindow.hpp"
 #include "gui/WebViewClient.hpp"
 
 #include <include/base/cef_build.h>

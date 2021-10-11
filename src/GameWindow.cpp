@@ -1,10 +1,10 @@
-#include "Window.hpp"
+#include "GameWindow.hpp"
 
 static void errorCallback(int error, const char *description) {
     fprintf(stderr, "GLFW Error: %s (%d)\n", description, error);
 }
 
-Window::Window(const std::string &name, int width, int height, bool vsync)
+GameWindow::GameWindow(const std::string &name, int width, int height, bool vsync)
     : width(width), height(height) {
     glfwSetErrorCallback(errorCallback);
 

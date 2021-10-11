@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 int Game::Run(const CefMainArgs &args, void *sandbox) {
-    Window display("No Name Game", 1280, 720, true);
+    GameWindow display("No Name Game", 800, 600, true);
     GLFWwindow *window = display.GetWindow();
 
     CefRefPtr<WebViewRenderer> webview = new WebViewRenderer(display.GetWidth(), display.GetHeight());

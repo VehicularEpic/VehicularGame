@@ -5,9 +5,9 @@
 #include "GLFW.hpp"
 #include <glad/gl.h>
 
-class Window {
+class GameWindow {
 public:
-    Window(const std::string &name, int width, int height, bool vsync);
+    GameWindow(const std::string &name, int width, int height, bool vsync);
 
     int GetWidth() const {
         return width;
