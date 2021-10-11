@@ -1,28 +1,24 @@
 #pragma once
 
-#define GLFW_INCLUDE_NONE
-
-#include <GLFW/glfw3.h>
-#include <glad/gl.h>
-
 #include <string>
+
+#include "GLFW.hpp"
+#include <glad/gl.h>
 
 class Window {
 public:
-    explicit Window(const std::string &, int, int, bool);
+    Window(const std::string &name, int width, int height, bool vsync);
 
-    void show();
-
-    void update();
-
-    bool active();
-
-    int getWidth() const {
+    int GetWidth() const {
         return width;
     }
 
-    int getHeight() const {
+    int GetHeight() const {
         return height;
+    }
+
+    GLFWwindow *GetWindow() const {
+        return win;
     }
 
 private:
