@@ -32,6 +32,8 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
     CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(
             windowInfo, client, testUrl, browserSettings, nullptr, nullptr);
 
+    WebViewEventHandler eventHandler(window, browser, webview);
+
     glfwShowWindow(window);
 
     while (!glfwWindowShouldClose(window)) {

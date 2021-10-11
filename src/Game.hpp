@@ -2,6 +2,7 @@
 
 #include "GameWindow.hpp"
 #include "gui/WebViewClient.hpp"
+#include "gui/WebViewEventHandler.hpp"
 
 #include <include/base/cef_build.h>
 
