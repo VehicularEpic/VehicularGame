@@ -9,8 +9,7 @@ CefRefPtr<CefResourceHandler> WebViewSchemeHandler::Create(
     CefURLParts url_parts;
     CefParseURL(request->GetURL(), url_parts);
 
-    std::wstring wide(url_parts.path.str);
-    std::string file = std::string(wide.begin(), wide.end()).substr(1);
+    std::string file = CefString(&url_parts.path).ToString().substr(1);
 
     Asset asset = this->repository.Read(file);
     size_t size = sizeof(asset.data[0]) * asset.data.size();
