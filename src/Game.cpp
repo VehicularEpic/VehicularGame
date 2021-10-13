@@ -32,7 +32,7 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
 
     browserSettings.windowless_frame_rate = 60;
 
-    const char *testUrl = "https://www.youtube.com/embed/iik25wqIuFo?autoplay=1&controls=0";
+    const char *testUrl = "webview://client/index.html";
 
     CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(
             windowInfo, client, testUrl, browserSettings, nullptr, nullptr);
@@ -76,7 +76,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return Game::Run(args, scopedSandbox.sandbox_info());
     }
 
-    return CefExecuteProcess(args, nullptr, scopedSandbox.sandbox_info());
+    return CefExecuteProcess(args, new BasicApp(), scopedSandbox.sandbox_info());
 }
 #else
 int main(int argc, char *argv[]) {
@@ -89,6 +89,6 @@ int main(int argc, char *argv[]) {
         return Game::Run(args, nullptr);
     }
 
-    return CefExecuteProcess(args, nullptr, nullptr);
+    return CefExecuteProcess(args, new BasicApp(), nullptr);
 }
 #endif

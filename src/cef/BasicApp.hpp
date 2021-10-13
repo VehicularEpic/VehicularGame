@@ -12,4 +12,6 @@ public:
     const BasicApp &operator=(const BasicApp &) = delete;
 
     void OnBeforeCommandLineProcessing(const CefString &processType, CefRefPtr<CefCommandLine> commandLine) override;
+
+    void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) override;
 };

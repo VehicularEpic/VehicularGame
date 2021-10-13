@@ -19,6 +19,8 @@ public:
 
     CefRefPtr<CefClient> GetDefaultClient() override;
 
+    void OnContextInitialized() override;
+
 private:
     CefRefPtr<WebViewClient> client;
 };

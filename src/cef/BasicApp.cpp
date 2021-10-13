@@ -8,3 +8,7 @@ void BasicApp::OnBeforeCommandLineProcessing(const CefString &processType, CefRe
         commandLine->AppendSwitchWithValue("autoplay-policy", "no-user-gesture-required");
     }
 }
+
+void BasicApp::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) {
+    registrar->AddCustomScheme("webview", CEF_SCHEME_OPTION_STANDARD);
+}
