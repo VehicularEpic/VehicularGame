@@ -7,6 +7,13 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <include/base/cef_build.h>
+
+#if defined(OS_POSIX)
+#include <cstring>
+#define errno_ errno
+#endif
+
 static std::string GetMimeType(const std::string &fileName) {
 #define MIME_TYPE(extension, mimeType)        \
     if (Utils::EndsWith(fileName, extension)) \
@@ -50,16 +57,23 @@ Asset ArchiveRepository::Read(const std::string &fileName) {
     FILE *file;
 
     std::string filePath = this->package + "/" + fileName;
-    errno_t error = fopen_s(&file, filePath.c_str(), "rb");
+#if defined(OS_WIN)
+    errno_t errno_ = fopen_s(&file, filePath.c_str(), "rb");
+#elif defined(OS_POSIX)
+    file = fopen(filePath.c_str(), "rb");
+#endif
 
-    if (error > 0) {
+    if (nullptr == file) {
         std::stringstream stream;
 
-        if (error == ENOENT) {
-            stream << "File '" << filePath << "' not found";
-        } else {
-            stream << "Error loading '" << filePath << "' (CODE " << error << ")";
-        }
+#if defined(OS_WIN)
+        char message[100];
+        strerror_s(message, sizeof(message), errno_);
+#elif defined(OS_POSIX)
+        const char *message = strerror(errno_);
+#endif
+
+        stream << "Error loading " << filePath << ": " << message;
 
         throw std::runtime_error(stream.str().c_str());
     }
@@ -70,7 +84,7 @@ Asset ArchiveRepository::Read(const std::string &fileName) {
     fseek(file, 0, SEEK_SET);
 
     std::vector<uint8_t> buffer(size);
-    fread_s(&buffer[0], sizeof(uint8_t) * size, sizeof(uint8_t), size, file);
+    fread(&buffer[0], sizeof(uint8_t), size, file);
 
     fclose(file);
 
