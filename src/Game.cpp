@@ -1,6 +1,5 @@
 #include "Game.hpp"
 #include "GameWindow.hpp"
-#include "Utils.hpp"
 
 #include "gui/WebViewApp.hpp"
 
@@ -59,6 +58,23 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
     return (EXIT_SUCCESS);
 }
 
+static ProcessType GetProcessType(const CefRefPtr<CefCommandLine> &commandLine) {
+    if (!commandLine->HasSwitch("type"))
+        return PROCESS_TYPE_BROWSER;
+
+    const std::string &type = commandLine->GetSwitchValue("type");
+
+    if (type == "renderer")
+        return PROCESS_TYPE_RENDERER;
+
+#if defined(OS_LINUX)
+    if (type == "zygote")
+        return PROCESS_TYPE_RENDERER;
+#endif
+
+    return PROCESS_TYPE_OTHER;
+}
+
 #if defined(OS_WIN)
 #include <include/cef_sandbox_win.h>
 
@@ -72,7 +88,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
     commandLine->InitFromString(::GetCommandLineW());
 
-    if (PROCESS_TYPE_BROWSER == Utils::GetProcessType(commandLine)) {
+    if (PROCESS_TYPE_BROWSER == GetProcessType(commandLine)) {
         return Game::Run(args, scopedSandbox.sandbox_info());
     }
 
