@@ -28,7 +28,7 @@ std::vector<uint8_t> ArchiveRepository::read(const std::string &name) {
     fseek(file, 0, SEEK_SET);
 
     std::vector<uint8_t> buffer(size);
-    fread_s(&buffer[0], buffer.size(), 1, size, file);
+    fread_s(&buffer[0], sizeof(uint8_t) * size, sizeof(uint8_t), size, file);
 
     fclose(file);
     return buffer;
