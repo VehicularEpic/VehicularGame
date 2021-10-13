@@ -1,13 +1,17 @@
 #if defined(DEBUG_ENVIRONMENT)
 #include "ArchiveRepository.hpp"
 
+#include <cstdio>
+#include <sstream>
+#include <stdexcept>
+
 ArchiveRepository::ArchiveRepository(const std::string &package)
     : package(ASSETS_FOLDER + package) {}
 
-std::vector<uint8_t> ArchiveRepository::read(const std::string &name) {
+Asset ArchiveRepository::Read(const std::string &fileName) {
     FILE *file;
 
-    std::string filePath = this->package + "/" + name;
+    std::string filePath = this->package + "/" + fileName;
     errno_t error = fopen_s(&file, filePath.c_str(), "rb");
 
     if (error > 0) {
@@ -31,6 +35,12 @@ std::vector<uint8_t> ArchiveRepository::read(const std::string &name) {
     fread_s(&buffer[0], sizeof(uint8_t) * size, sizeof(uint8_t), size, file);
 
     fclose(file);
-    return buffer;
+
+    Asset asset;
+
+    asset.data = buffer;
+    asset.mimeType = "";
+
+    return asset;
 }
 #endif
