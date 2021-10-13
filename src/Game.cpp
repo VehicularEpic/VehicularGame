@@ -2,7 +2,7 @@
 #include "GameWindow.hpp"
 #include "Utils.hpp"
 
-#include "gui/WebViewClient.hpp"
+#include "gui/WebViewApp.hpp"
 
 int Game::Run(const CefMainArgs &args, void *sandbox) {
     GameWindow display("No Name Game", 800, 600, true);
@@ -10,13 +10,14 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
 
     CefRefPtr<WebViewRenderer> webview = new WebViewRenderer(display.GetWidth(), display.GetHeight());
     CefRefPtr<WebViewClient> client = new WebViewClient(webview);
+    CefRefPtr<WebViewApp> app = new WebViewApp(client);
 
-    CefExecuteProcess(args, client, sandbox);
+    CefExecuteProcess(args, app, sandbox);
 
     CefSettings settings;
     settings.log_severity = LOGSEVERITY_DISABLE;
 
-    CefInitialize(args, settings, client, sandbox);
+    CefInitialize(args, settings, app, sandbox);
 
     CefWindowInfo windowInfo;
     CefBrowserSettings browserSettings;
