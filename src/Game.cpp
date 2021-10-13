@@ -1,5 +1,8 @@
 #include "Game.hpp"
+#include "GameWindow.hpp"
 #include "Utils.hpp"
+
+#include "gui/WebViewClient.hpp"
 
 int Game::Run(const CefMainArgs &args, void *sandbox) {
     GameWindow display("No Name Game", 800, 600, true);

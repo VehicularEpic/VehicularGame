@@ -1,9 +1,7 @@
 #pragma once
 
-#include "GameWindow.hpp"
-#include "gui/WebViewClient.hpp"
-
 #include <include/base/cef_build.h>
+#include <include/cef_base.h>
 
 namespace Game {
 
