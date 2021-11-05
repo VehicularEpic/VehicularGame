@@ -3,7 +3,7 @@
 
 #include "gui/WebViewApp.hpp"
 
-int Game::Run(const CefMainArgs &args, void *sandbox) {
+void Game::Run(const CefMainArgs &args, void *sandbox) {
     GameWindow display("No Name Game", 800, 600, true);
     GLFWwindow *window = display.GetWindow();
 
@@ -49,13 +49,18 @@ int Game::Run(const CefMainArgs &args, void *sandbox) {
 
     glfwDestroyWindow(window);
     glfwTerminate();
+}
 
-    // TODO: remove the following CefBrowser unref workaround
-    browser = nullptr;
+int Game::Main(const CefMainArgs &args, void *sandbox, ProcessType type) {
+    if (PROCESS_TYPE_BROWSER == type) {
+        Game::Run(args, sandbox);
+        CefShutdown();
 
-    CefShutdown();
+        return (EXIT_SUCCESS);
+    }
 
-    return (EXIT_SUCCESS);
+
+    return CefExecuteProcess(args, new BasicApp(), sandbox);
 }
 
 static ProcessType GetProcessType(const CefRefPtr<CefCommandLine> &commandLine) {
@@ -80,19 +85,14 @@ static ProcessType GetProcessType(const CefRefPtr<CefCommandLine> &commandLine) 
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                       LPWSTR lpCmdLine, int nShowCmd) {
-    CefScopedSandboxInfo scopedSandbox;
-
     CefEnableHighDPISupport();
     CefMainArgs args(hInstance);
 
     CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
     commandLine->InitFromString(::GetCommandLineW());
 
-    if (PROCESS_TYPE_BROWSER == GetProcessType(commandLine)) {
-        return Game::Run(args, scopedSandbox.sandbox_info());
-    }
-
-    return CefExecuteProcess(args, new BasicApp(), scopedSandbox.sandbox_info());
+    CefScopedSandboxInfo scopedSandbox;
+    return Game::Main(args, scopedSandbox.sandbox_info(), GetProcessType(commandLine));
 }
 #else
 int main(int argc, char *argv[]) {
@@ -101,10 +101,6 @@ int main(int argc, char *argv[]) {
     CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
     commandLine->InitFromArgv(argc, argv);
 
-    if (PROCESS_TYPE_BROWSER == GetProcessType(commandLine)) {
-        return Game::Run(args, nullptr);
-    }
-
-    return CefExecuteProcess(args, new BasicApp(), nullptr);
+    return Game::Main(args, nullptr, GetProcessType(commandLine));
 }
 #endif

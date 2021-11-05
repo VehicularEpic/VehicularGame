@@ -11,6 +11,8 @@ enum ProcessType {
 
 namespace Game {
 
-    int Run(const CefMainArgs &args, void *sandbox);
+    int Main(const CefMainArgs &args, void *sandbox, ProcessType type);
+
+    void Run(const CefMainArgs &args, void *sandbox);
 
 }
