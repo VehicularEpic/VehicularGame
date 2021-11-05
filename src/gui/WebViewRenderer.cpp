@@ -111,12 +111,15 @@ void WebViewRenderer::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
 }
 
 void WebViewRenderer::SetSize(int _width, int _height) {
-    this->width = _width;
-    this->height = _height;
+    if (_width > 0)
+        this->width = _width;
+
+    if (_height > 0)
+        this->height = _height;
 
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
