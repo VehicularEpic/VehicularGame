@@ -1,11 +1,13 @@
 #include "Game.hpp"
 #include "GameWindow.hpp"
+#include "GameWindowEventHandler.hpp"
 
 #include "gui/WebViewApp.hpp"
 
 void Game::Run(const CefMainArgs &args, void *sandbox) {
     GameWindow display("No Name Game", 800, 600, true);
     GLFWwindow *window = display.GetWindow();
+    GameWindowEventHandler handler(window);
 
     CefRefPtr<WebViewRenderer> webview = new WebViewRenderer(display.GetWidth(), display.GetHeight());
     CefRefPtr<WebViewClient> client = new WebViewClient(webview);
@@ -35,6 +37,12 @@ void Game::Run(const CefMainArgs &args, void *sandbox) {
 
     CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(
             windowInfo, client, testUrl, browserSettings, nullptr, nullptr);
+
+    handler.AddFramebufferSizeListener([webview, browser](int width, int height) {
+        glViewport(0, 0, width, height);
+        webview->SetSize(width, height);
+        browser->GetHost()->WasResized();
+    });
 
     glfwShowWindow(window);
 
