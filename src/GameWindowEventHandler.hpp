@@ -31,14 +31,14 @@ using MouseUpListener = MouseButtonListener;
 using ScrollListener = std::function<void(double xpos, double ypos, double xoffset, double yoffset)>;
 using TextListener = std::function<void(unsigned int codepoint)>;
 
-#define IMPLEMENT_LISTENER(type, ...)                           \
-private:                                                        \
-    std::vector<type> type##s;                                  \
-    static void Call##type##s(GLFWwindow *window, __VA_ARGS__); \
-                                                                \
-public:                                                         \
-    void Add##type(const type &listener) {                      \
-        type##s.push_back(listener);                            \
+#define IMPLEMENT_LISTENER(type, ...)                             \
+private:                                                          \
+    std::vector<type> type##s;                                    \
+    static void Call##type##s(GLFWwindow *window, ##__VA_ARGS__); \
+                                                                  \
+public:                                                           \
+    void Add##type(const type &listener) {                        \
+        type##s.push_back(listener);                              \
     }
 
 class GameWindowEventHandler {
