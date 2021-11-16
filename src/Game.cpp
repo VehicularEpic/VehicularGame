@@ -2,6 +2,7 @@
 #include "GameWindow.hpp"
 #include "GameWindowEventHandler.hpp"
 
+#include "cef/RenderProcess.hpp"
 #include "gui/WebViewApp.hpp"
 
 void Game::Run(const CefMainArgs &args, void *sandbox) {
@@ -67,6 +68,9 @@ int Game::Main(const CefMainArgs &args, void *sandbox, ProcessType type) {
         return (EXIT_SUCCESS);
     }
 
+    if (PROCESS_TYPE_RENDERER == type) {
+        return CefExecuteProcess(args, new RenderProcess(), sandbox);
+    }
 
     return CefExecuteProcess(args, new BasicApp(), sandbox);
 }
