@@ -20,31 +20,31 @@ static std::string GetMimeType(const std::string &fileName) {
         return mimeType;
 
     /* Audio Files */
-    MIME_TYPE(".wav", "audio/wav");
-    MIME_TYPE(".ogg", "audio/ogg");
-    MIME_TYPE(".mp3", "audio/mpeg");
-    MIME_TYPE(".opus", "audio/opus");
+    MIME_TYPE(".wav", "audio/wav")
+    MIME_TYPE(".ogg", "audio/ogg")
+    MIME_TYPE(".mp3", "audio/mpeg")
+    MIME_TYPE(".opus", "audio/opus")
 
     /* Text Files */
-    MIME_TYPE(".css", "text/css");
-    MIME_TYPE(".htm", "text/html");
-    MIME_TYPE(".html", "text/html");
+    MIME_TYPE(".css", "text/css")
+    MIME_TYPE(".htm", "text/html")
+    MIME_TYPE(".html", "text/html")
 
     /* Image Files */
-    MIME_TYPE(".png", "image/png");
-    MIME_TYPE(".jpg", "image/jpeg");
-    MIME_TYPE(".jpeg", "image/jpeg");
-    MIME_TYPE(".svg", "image/svg+xml");
+    MIME_TYPE(".png", "image/png")
+    MIME_TYPE(".jpg", "image/jpeg")
+    MIME_TYPE(".jpeg", "image/jpeg")
+    MIME_TYPE(".svg", "image/svg+xml")
 
     /* Font Files */
-    MIME_TYPE(".otf", "font/otf");
-    MIME_TYPE(".ttf", "font/ttf");
-    MIME_TYPE(".woff", "font/woff");
-    MIME_TYPE(".woff2", "font/woff2");
+    MIME_TYPE(".otf", "font/otf")
+    MIME_TYPE(".ttf", "font/ttf")
+    MIME_TYPE(".woff", "font/woff")
+    MIME_TYPE(".woff2", "font/woff2")
 
     /* Application Files */
-    MIME_TYPE(".json", "application/json");
-    MIME_TYPE(".js", "application/javascript");
+    MIME_TYPE(".json", "application/json")
+    MIME_TYPE(".js", "application/javascript")
 
     /* Default */
     return "text/plain";
