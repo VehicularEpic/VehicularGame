@@ -21,6 +21,7 @@ set(CEF_VERSION "94.4.5+g0fd0d6f+chromium-94.0.4606.71")
 
 set(PROJECT_EXTERNAL_MODULES ${CMAKE_SOURCE_DIR}/modules)
 
+find_package(GLM)
 find_package(GLAD)
 find_package(GLFW)
 
@@ -30,8 +31,9 @@ SET_CEF_TARGET_OUT_DIR()
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp src/*.hpp)
 source_group(${CMAKE_PROJECT_NAME} FILES ${PROJECT_SOURCES})
 
-set(LINKED_LIBS glad glfw libcef_lib libcef_dll_wrapper)
+set(LINKED_LIBS glm::glm glad glfw libcef_lib libcef_dll_wrapper)
 
+add_compile_definitions(_USE_MATH_DEFINES)
 add_compile_definitions("$<$<CONFIG:Debug>:DEBUG_ENVIRONMENT>")
 add_compile_definitions("$<$<CONFIG:Release>:RELEASE_ENVIRONMENT>")
 
