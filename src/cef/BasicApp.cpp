@@ -10,5 +10,6 @@ void BasicApp::OnBeforeCommandLineProcessing(const CefString &processType, CefRe
 }
 
 void BasicApp::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) {
-    registrar->AddCustomScheme("webview", CEF_SCHEME_OPTION_STANDARD);
+    int options = CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_FETCH_ENABLED;
+    registrar->AddCustomScheme("webview", options);
 }
