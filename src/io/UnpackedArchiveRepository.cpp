@@ -1,5 +1,5 @@
 #if defined(DEBUG_ENVIRONMENT)
-#include "ArchiveRepository.hpp"
+#include "ArchiveManager.hpp"
 
 #include "../Utils.hpp"
 
@@ -50,10 +50,10 @@ static std::string GetMimeType(const std::string &fileName) {
     return "text/plain";
 }
 
-ArchiveRepository::ArchiveRepository(const std::string &package)
+ArchiveManager::Repository::Repository(const std::string &package)
     : package(ASSETS_FOLDER + package) {}
 
-Asset ArchiveRepository::Read(const std::string &fileName) {
+Asset ArchiveManager::Repository::Read(const std::string &fileName) {
     FILE *file;
 
     std::string filePath = this->package + "/" + fileName;
